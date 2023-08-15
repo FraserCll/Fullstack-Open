@@ -1,7 +1,7 @@
 # Fullstack-Open
 Learn React, Redux, Node.js, MongoDB, GraphQL and TypeScript in one go!
 
-Exercise 0.4: New note diagram
+## Exercise 0.4: New note diagram
 ```mermaid
 sequenceDiagram
     participant browser
@@ -33,7 +33,7 @@ sequenceDiagram
     deactivate server
 ```
 
-Exercise 0.5: Single page app diagram
+## Exercise 0.5: Single page app diagram
 ```mermaid
 sequenceDiagram
     participant browser
@@ -45,7 +45,7 @@ sequenceDiagram
     deactivate server
 ```
 
-Exercise 0.6: New note in Single page app diagram
+## Exercise 0.6: New note in Single page app diagram
 ```mermaid
 sequenceDiagram
     participant browser
