@@ -33,7 +33,13 @@ const Course = (props) => {
   
   const Content = (props) => (
     <div>
-      {console.log(props.course.course.parts)}
+      <ul>
+        {props.course.course.parts.map(part => 
+          <li key={part.id} >
+            {part.name} {part.exercises}
+          </li>
+        )}
+      </ul>
     </div>
   )
 
