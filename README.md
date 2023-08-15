@@ -2,7 +2,7 @@
 Learn React, Redux, Node.js, MongoDB, GraphQL and TypeScript in one go!
 
 Exercise 0.4: New note diagram
-```Mermaid
+```mermaid
 sequenceDiagram
     participant browser
     participant server
