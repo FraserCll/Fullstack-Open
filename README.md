@@ -2,6 +2,7 @@
 Learn React, Redux, Node.js, MongoDB, GraphQL and TypeScript in one go!
 
 Exercise 0.4: New note diagram
+```Mermaid
 sequenceDiagram
     participant browser
     participant server
@@ -30,6 +31,7 @@ sequenceDiagram
     activate server
     server-->>browser: returns notes as JSON data
     deactivate server
+```
 
 Exercise 0.5: Single page app diagram
 
