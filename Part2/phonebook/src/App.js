@@ -8,12 +8,18 @@ const App = () => {
 
   const addName = (event) => {
     event.preventDefault()
-    const nameObject = {
-      name: newName
+    if ( false /*persons.find(newName) !== 'undefined'*/ ) {
+      const nameObject = {
+        name: newName
+      }
+  
+      setPersons(persons.concat(nameObject))
+      setNewName('')
+    }
+    else {
+      console.log('error')
     }
 
-    setPersons(persons.concat(nameObject))
-    setNewName('')
   }
 
   const handleNameChange = (event) => {
