@@ -5,10 +5,10 @@ const Persons = ({ persons, filterName}) => {
   
     return (
       <ul>
-      {personsToShow.map((person, index) => (
-        <li key={index}>{person.name} {person.number}</li>
-      ))}
-    </ul>
+        {personsToShow.map((person, index) => (
+          <li key={index}>{person.name} {person.number}</li>
+        ))}
+      </ul>
     )
   }
 
