@@ -18,11 +18,28 @@ const App = () => {
       })
   }, [])
 
-  const addName = (event) => {
+  const addName = (event, id) => {
     event.preventDefault()
     const names = persons.map(person => person.name)
+    let existingPerson = null
+
     if ( names.indexOf(newName) > -1 ) {
-      alert(`${newName} is already added to phonebook`)
+      if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`))
+      existingPerson = persons.find(person => person.name === newName)
+      const updatedPerson = { ...existingPerson, number: newNumber}
+
+      personService
+        .replaceNumber(existingPerson.id, updatedPerson)
+        .then(returnedPerson => {
+          setPersons(persons.map(person => (person.id === returnedPerson.id ? returnedPerson : person)))
+          setNewName('')
+          setNewNumber('')
+        })
+        .catch(error => {
+          alert(
+            `An error occurred while updating the number for ${newName}`
+          )
+        })
     }
     else {
         const personObject = {
