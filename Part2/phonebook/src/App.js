@@ -82,9 +82,7 @@ const App = () => {
     setNewName(event.target.value)
   }
 
-  const handleNumberChange = (event) => {
-    setNewNumber(event.target.value)
-  }
+ 
 
   const handleFilter = (event) => {
     setFilterName(event.target.value.toLowerCase())

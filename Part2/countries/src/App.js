@@ -12,6 +12,7 @@ const FindCountries = ({ handleFindCountries }) => {
 
 // Display countries with name containing term 'search'
 const Countries = ({ countries, search }) => {
+  let singleCountry = null
   const countriesToShow = search
   ? countries.filter(country => country.toLowerCase().includes(search))
   : countries
@@ -38,13 +39,49 @@ const Countries = ({ countries, search }) => {
   }
   else if (countriesToShow.length === 1) {
     console.log(`Display single country data ${countriesToShow.toString().toLowerCase()}` )
+    singleCountry = countriesToShow.toString().toLowerCase()
+
+    return (
+      <div>
+        <CountryData singleCountry={singleCountry} />
+      </div>
+    )
   }
+}
+
+const CountryData = ({ singleCountry }) => {
+    // Get data for specific country
+    useEffect(() => {
+      const url = 'https://studies.cs.helsinki.fi/restcountries/api/name/' + singleCountry
+      console.log(url + ' is the url')
+      if (singleCountry) {
+        console.log('fetching country data...')
+        axios
+          .get(url)
+          .then(response => {
+              console.log(response.data.name.common)
+          })
+          .catch( error => {
+            console.log('error fetching country')
+          })
+      }
+    }, [singleCountry]
+    )
+
+    return (
+      <div>
+        <h2>
+          Country name
+        </h2>
+        <p>
+          More country info
+        </p>
+      </div>
+    )
 }
 
 const App = () => {
   const [countries, SetCountries] = useState([])
-  const [countryData, setCountryData] = useState()
-  const [countryToFetch, setCountryToFetch] = useState(null)
   const [search, setSearch] = useState('')
 
   // Get the list of country (common) names
@@ -59,22 +96,6 @@ const App = () => {
           console.log('error fetching countries')
         })
       }, []
-  )
-
-  // Get data for specific country
-  useEffect(() => {
-    if (countryToFetch) {
-      console.log('fetching country data...')
-      axios
-        .get(`https://studies.cs.helsinki.fi/restcountries/api/name/${countryToFetch}`)
-        .then(response => {
-            setCountryData = response.data
-        })
-        .catch( error => {
-          console.log('error fetching country')
-        })
-    }
-  }, []
   )
 
   const handleFindCountries = (event) => {
