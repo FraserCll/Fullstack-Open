@@ -59,24 +59,22 @@ const CountryData = ({ singleCountry }) => {
         axios
           .get(url)
           .then(response => {
-              console.log(response.data.name.common)
+              console.log('the .then part')
+              const object = {
+                name: response.data.name.common
+              }
+              console.log(object.name + ' object')
+              return (
+                <h2>
+                  {object.name}
+                </h2>
+              )
           })
           .catch( error => {
             console.log('error fetching country')
           })
       }
     }, [singleCountry]
-    )
-
-    return (
-      <div>
-        <h2>
-          Country name
-        </h2>
-        <p>
-          More country info
-        </p>
-      </div>
     )
 }
 
