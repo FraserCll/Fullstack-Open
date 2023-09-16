@@ -49,32 +49,61 @@ const Countries = ({ countries, search }) => {
   }
 }
 
+// Fetch and render the data for a single country
 const CountryData = ({ singleCountry }) => {
+  const [countryDetails, setCountryDetails] = useState({})
     // Get data for specific country
     useEffect(() => {
       const url = 'https://studies.cs.helsinki.fi/restcountries/api/name/' + singleCountry
-      console.log(url + ' is the url')
       if (singleCountry) {
         console.log('fetching country data...')
         axios
           .get(url)
           .then(response => {
-              console.log('the .then part')
               const object = {
-                name: response.data.name.common
+                name: response.data.name.common,
+                capital: response.data.capital,
+                area: response.data.area,
+                languages: Object.values(response.data.languages),
+                flag: response.data.flags.svg,
+                flagAlt: response.data.flags.alt
               }
-              console.log(object.name + ' object')
-              return (
-                <h2>
-                  {object.name}
-                </h2>
-              )
+              setCountryDetails(object)
           })
           .catch( error => {
             console.log('error fetching country')
           })
       }
     }, [singleCountry]
+    )
+    return(
+      <div>
+        <h2>
+        {countryDetails.name}
+        </h2>
+        <p>
+          capital {countryDetails.capital}
+        </p>
+        <p>
+          area {countryDetails.area}
+        </p>
+        <b>
+          languages:
+        </b>
+        <ul>
+          {countryDetails.languages && countryDetails.languages.map((language, i) => 
+            <li key={i}>
+              {language}
+            </li>
+          )}
+        </ul>
+        <img
+            src= {countryDetails.flag}
+            alt= {countryDetails.flagAlt}
+            role="img"
+            height="150px"
+        />
+      </div>
     )
 }
 
@@ -102,15 +131,6 @@ const App = () => {
 
   return (
     <div>
-      <h1>
-        Countries
-      </h1>
-      <p>
-        Now we will create the search component 'find countries', and display matches.
-      </p>
-      <h2>
-        Search
-      </h2>
       <FindCountries handleFindCountries={handleFindCountries} />
       <Countries countries={countries} search={search} />
     </div>
