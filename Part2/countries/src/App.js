@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
+const api_key = process.env.VITE_OPENWEATHER_KEY
 
 const FindCountries = ({ handleFindCountries }) => {
   return (
@@ -19,7 +20,7 @@ const Countries = ({ countries, search, buttonCountryData }) => {
 
   console.log(countriesToShow.length)
 
-  if ((10 < countriesToShow.length) && (search.length != 0 )) {
+  if ((10 < countriesToShow.length) && (search.length !== 0 )) {
     return (
       <p>
       Too many matches, specify another filter
@@ -46,15 +47,17 @@ const Countries = ({ countries, search, buttonCountryData }) => {
 
     return (
       <div>
-        <CountryData singleCountry={singleCountry} />
+        <CountryData singleCountry={singleCountry} api_key={api_key} />
       </div>
     )
   }
 }
 
 // Fetch and render the data for a single country
-const CountryData = ({ singleCountry }) => {
+const CountryData = ({ singleCountry, api_key }) => {
   const [countryDetails, setCountryDetails] = useState({})
+  const [weather, setWeather] = useState([])
+
     // Get data for specific country
     useEffect(() => {
       const url = 'https://studies.cs.helsinki.fi/restcountries/api/name/' + singleCountry
@@ -75,6 +78,15 @@ const CountryData = ({ singleCountry }) => {
           })
           .catch( error => {
             console.log('error fetching country')
+          })
+
+          axios
+          .get(`https://api.openweathermap.org/data/2.5/weather?q=${countryDetails.capital}&appid=${api_key}`)
+          .then(response => {
+              console.log(response.data)
+          })
+          .catch( error => {
+            console.log('error fetching weather')
           })
       }
     }, [singleCountry]
@@ -106,6 +118,15 @@ const CountryData = ({ singleCountry }) => {
             role="img"
             height="150px"
         />
+        <h2>
+          Weather in {countryDetails.capital}
+        </h2>
+        <p>
+          temperature
+        </p>
+        <p>
+          wind
+        </p>
       </div>
     )
 }
