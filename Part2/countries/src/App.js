@@ -11,7 +11,7 @@ const FindCountries = ({ handleFindCountries }) => {
 }
 
 // Display countries with name containing term 'search'
-const Countries = ({ countries, search }) => {
+const Countries = ({ countries, search, buttonCountryData }) => {
   let singleCountry = null
   const countriesToShow = search
   ? countries.filter(country => country.toLowerCase().includes(search))
@@ -32,6 +32,9 @@ const Countries = ({ countries, search }) => {
         {countriesToShow.map((country, i) => 
           <li key={i}>
             {country}
+            <button onClick={() => buttonCountryData(country)}>
+              show 
+            </button>
           </li>
         )}
       </ul>
@@ -110,6 +113,7 @@ const CountryData = ({ singleCountry }) => {
 const App = () => {
   const [countries, SetCountries] = useState([])
   const [search, setSearch] = useState('')
+  const [buttonCountry, setButtonCountry] = useState(null)
 
   // Get the list of country (common) names
   useEffect(() => {
@@ -129,10 +133,15 @@ const App = () => {
     setSearch(event.target.value.toLowerCase())
   }
 
+  const buttonCountryData = (country) => {
+    setButtonCountry(country)
+  }
+
   return (
     <div>
       <FindCountries handleFindCountries={handleFindCountries} />
-      <Countries countries={countries} search={search} />
+      <Countries countries={countries} search={search} buttonCountryData={buttonCountryData} />
+      {buttonCountry && <CountryData singleCountry={buttonCountry} />}
     </div>
   )
 }
