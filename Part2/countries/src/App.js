@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
-const api_key = process.env.VITE_OPENWEATHER_KEY
+const api_key = import.meta.env.VITE_SOME_KEY
 
 const FindCountries = ({ handleFindCountries }) => {
   return (
