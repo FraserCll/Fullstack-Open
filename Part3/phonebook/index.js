@@ -1,5 +1,18 @@
 const express = require('express')
 const app = express()
+const morgan = require('morgan')
+
+app.use(express.json())
+app.use(morgan(function (tokens, req, res) {
+    return [
+      tokens.method(req, res),
+      tokens.url(req, res),
+      tokens.status(req, res),
+      tokens.res(req, res, 'content-length'), '-',
+      tokens['response-time'](req, res), 'ms',
+      JSON.stringify(req.body)
+    ].join(' ')
+  }))
 
 let persons = [
     { 
@@ -43,10 +56,50 @@ app.get('/api/persons/:id', (request, response) => {
     }
 })
 
+function getRandomInt(min, max) {
+    min = Math.ceil(min)
+    max = Math.floor(max)
+    return Math.floor(Math.random() * (max - min) + min)
+}
+
+app.post('/api/persons', (request, response) => {
+    const person = request.body
+    const name = person.name
+    const nameMatch = persons.find(person => person.name.localeCompare(name) === 0)
+    const randId = getRandomInt(5, 9999)
+    
+    if (!person.name || !person.number) {
+        return response.status(400).json({
+            error: 'name or number missing'
+        })
+    } else if (nameMatch) {
+        return response.status(400).json({
+            error: 'name already in phonebook'
+        })
+    } else {
+        person.id = randId
+        persons = persons.concat(person)
+        response.json(person)
+    }
+    
+})  
+
+app.delete('/api/persons/:id', (request, response) => {
+    const id = Number(request.params.id)
+    persons = persons.filter(person => person.id !== id)
+
+    response.status(204).end()
+})
+
 app.get('/info', (request, response) => {
     const datetime = new Date()
     response.send(`<p>Phonebook has info for ${persons.length} people<br/>${datetime}</p>`)
 })
+
+const format = (tokens, req, res) => {
+
+    next()
+}
 
 const PORT = 3001
 app.listen(PORT)
