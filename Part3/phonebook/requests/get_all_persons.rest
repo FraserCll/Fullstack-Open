@@ -1,1 +1,1 @@
-GET http://localhost:3001/api/persons
+GET https://silent-shape-527.fly.dev/api/persons
