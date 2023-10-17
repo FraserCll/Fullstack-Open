@@ -118,7 +118,7 @@ const App = () => {
       <ErrorNotification message={errorMessage} />
       <Filter handleFilter={handleFilter} />
       <h3>add a new</h3>
-      <PersonForm addName={addName} persons={persons} newName={newName} newNumber={newNumber} setNewName={setNewName} setNewNumber={setNewNumber} setPersons={setPersons} handleNameChange={handleNameChange} handleNumberChange={handleNumberChange} />
+      <PersonForm addName={addName} persons={persons} newName={newName} newNumber={newNumber} setNewName={setNewName} setNewNumber={setNewNumber} setPersons={setPersons} handleNameChange={handleNameChange} />
       <h3>Numbers</h3>
       <Persons persons={persons} filterName={filterName} handleDelete={handleDelete} />
     </div>
