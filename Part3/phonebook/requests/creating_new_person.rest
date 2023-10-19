@@ -1,8 +1,8 @@
-POST https://silent-shape-527.fly.dev/api/persons
+POST http://localhost:3001/api/persons
 Content-Type: application/json
 
 {
     "id": null,
     "name": "Doug Barkin",
-    "number": "040-223-111"
+    "number": "040-223-111",
 }
