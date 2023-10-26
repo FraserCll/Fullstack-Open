@@ -20,59 +20,6 @@ app.use(morgan(function (tokens, req, res) {
     ].join(' ')
   }))
 
-
-/*
-// below section I go back to follow 'connecting the backend to a database'
-// checked and working.
-const mongoose = require('mongoose')
-
-const password = process.argv[2]
-const url = `mongodb+srv://fullstack:${password}@cluster0.0nnphtl.mongodb.net/phonebookApp?retryWrites=true&w=majority`
-
-mongoose.set('strictQuery', false)
-mongoose.connect(url)
-
-const personSchema = new mongoose.Schema({
-    name: String,
-    number: Number,
-})
-
-personSchema.set('toJSON', {
-    transform: (document, returnedObject) => {
-        returnedObject.id = returnedObject._id.toString()
-        delete returnedObject._id
-        delete returnedObject.__v
-    }
-})
-
-const Person = mongoose.model('Person', personSchema)
-*/
-
-/*
-let persons = [
-    { 
-      "id": 1,
-      "name": "Arto Hellas", 
-      "number": "040-123456"
-    },
-    { 
-      "id": 2,
-      "name": "Ada Lovelace", 
-      "number": "39-44-5323523"
-    },
-    { 
-      "id": 3,
-      "name": "Dan Abramov", 
-      "number": "12-43-234345"
-    },
-    { 
-      "id": 4,
-      "name": "Mary Poppendieck", 
-      "number": "39-23-6423122"
-    }
-]
-*/
-
 app.get('/', (request, response) => {
     response.send('<h1>Hello World!</h1>')
 })
@@ -100,29 +47,6 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min) + min)
 }
 
-/* before making backend functionality to use the database
-app.post('/api/persons', (request, response) => {
-    const person = request.body
-    const name = person.name
-    const nameMatch = persons.find(person => person.name.localeCompare(name) === 0)
-    const randId = getRandomInt(5, 9999)
-    
-    if (!person.name || !person.number) {
-        return response.status(400).json({
-            error: 'name or number missing'
-        })
-    } else if (nameMatch) {
-        return response.status(400).json({
-            error: 'name already in phonebook'
-        })
-    } else {
-        person.id = randId
-        persons = persons.concat(person)
-        response.json(person)
-    }
-})  
-*/
-
 app.post('/api/persons', (request, response) => {
     const body = request.body
 
@@ -147,13 +71,6 @@ app.delete('/api/persons/:id', (request, response) => {
     response.status(204).end()
 })
 
-/* old - before backend integrate to DB
-app.get('/info', (request, response) => {
-    const datetime = new Date()
-    response.send(`<p>Phonebook has info for ${persons.length} people<br/>${datetime}</p>`)
-})
-*/
-
 app.get('/api/persons/:id', (request, response) => {
     Person.findById(request.params.id).then(person => {
         response.json(person)
@@ -169,5 +86,3 @@ const PORT = process.env.PORT
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
 })
-
-//..
