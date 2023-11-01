@@ -1,15 +1,12 @@
-# fly.toml app configuration file generated for silent-shape-527 on 2023-10-18T22:48:22+01:00
+# fly.toml app configuration file generated for wild-butterfly-5731 on 2023-11-01T10:54:35Z
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = "silent-shape-527"
+app = "wild-butterfly-5731"
 primary_region = "lhr"
 
 [build]
-
-[env]
-  PORT = "3000"
 
 [http_service]
   internal_port = 3000
