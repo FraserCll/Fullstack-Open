@@ -1,0 +1,9 @@
+PUT http://localhost:3003/api/blogs/65451a3e13c0a73d99d9dbd2
+Content-Type: application/json
+
+{
+    "title": "testTitleUpdated",
+    "author": "Tester Update",
+    "url": "https://www.google.com/images",
+    "likes": "1"
+}
