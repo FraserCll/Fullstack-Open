@@ -96,7 +96,6 @@ describe('favourite likes', () => {
 
     test('when the list only has one blog equals the likes of that', () => {
         const result = listHelper.favouriteBlog(listWithOneBlog)
-        console.log(result)
         expect(result).toEqual(listWithOneBlog[0])
     })
 
