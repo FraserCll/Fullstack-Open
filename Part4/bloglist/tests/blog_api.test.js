@@ -61,7 +61,7 @@ test('a valid blog can be added', async () => {
     )
 })
 
-test('blog without title is not added', async () => {
+test('blog without title is not added, results in 400 bad request', async () => {
     const newBlog = {
         author: "Try Hack Me",
         url: "https://tryhackme.com",
@@ -134,6 +134,20 @@ test('missing likes defaults to 0', async () => {
     const blogsAtEnd = await helper.blogsInDb()
     const newLikes = blogsAtEnd[helper.initialBlogs.length].likes
     expect(newLikes).toEqual(0)
+})
+
+test('url missing results in 400 bad request', async () => {
+    const newBlog = {
+        title: "Top Ten Pubs for Croaking In",
+        author: "Me Old Frog",
+        likes: 10
+    }
+
+    await api
+        .post('/api/blogs')
+        .send(newBlog)
+        .expect(400)
+        .expect('Content-Type', /application\/json/)
 })
 
 afterAll(async () => {
