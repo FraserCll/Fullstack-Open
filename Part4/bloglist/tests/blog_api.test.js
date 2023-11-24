@@ -9,11 +9,10 @@ const Blog = require('../models/blog')
 beforeEach(async () => {
     await Blog.deleteMany({})
 
-    let blogObject = new Blog(helper.initialBlogs[0])
-    await blogObject.save()
-
-    blogObject = new Blog(helper.initialBlogs[1])
-    await blogObject.save()
+    const blogObjects = helper.initialBlogs
+        .map(blog => Blog(blog))
+    const promiseArray = blogObjects.map(blog => blog.save())
+    await Promise.all(promiseArray)
 })
 
 test('blogs are returned as JSON', async () => {
@@ -109,6 +108,32 @@ test('a blog can be deleted', async () => {
     const titles = blogsAtEnd.map(b => b.title)
 
     expect(titles).not.toContain(blogToDelete.title)
+})
+
+test('unique identifier is named id', async () => {
+    const response = await api.get('/api/blogs')
+
+    const ids = response.body.map(r => r.id)
+    
+    expect(ids).toBeDefined()
+})
+
+test('missing likes defaults to 0', async () => {
+    const newBlog = {
+        title: 'Really cool website',
+        author: "Coolguy23",
+        url: "https://fullstackopen.com/en/"
+    }
+
+    await api
+        .post('/api/blogs')
+        .send(newBlog)
+        .expect(201)
+        .expect('Content-Type', /application\/json/)
+
+    const blogsAtEnd = await helper.blogsInDb()
+    const newLikes = blogsAtEnd[helper.initialBlogs.length].likes
+    expect(newLikes).toEqual(0)
 })
 
 afterAll(async () => {
